@@ -1,0 +1,75 @@
+
+#count down timer project in python
+
+
+# Import necessary modules
+import time
+from tkinter import *
+from tkinter import messagebox
+
+# Create the main window
+root = Tk()
+root.geometry("400x300")  # Set window dimensions
+root.title("Countdown Timer")  # Set window title
+root.config(bg="#345")  # Set background color
+
+# Declare variables to store user input (hours, minutes, seconds)
+hour = StringVar()
+minute = StringVar()
+second = StringVar()
+
+# Set default values to 0
+hour.set("00")
+minute.set("00")
+second.set("00")
+
+# Create input widgets for hours, minutes, and seconds
+hour_box = Entry(root, width=3, font=("Arial", 18, ""), textvariable=hour)
+hour_box.place(x=80, y=20)
+
+mins_box = Entry(root, width=3, font=("Arial", 18, ""), textvariable=minute)
+mins_box.place(x=130, y=20)
+
+sec_box = Entry(root, width=3, font=("Arial", 18, ""), textvariable=second)
+sec_box.place(x=180, y=20)
+
+# Function to handle countdown timer
+def countdowntimer():
+    try:
+        # Get user input and calculate total seconds
+        user_input = int(hour.get()) * 3600 + int(minute.get()) * 60 + int(second.get())
+    except ValueError:
+        # Handle invalid input
+        messagebox.showwarning("", "Invalid Input!")
+        return
+
+    # Countdown loop
+    while user_input >= 0:
+        # Convert total seconds to hours, minutes, and seconds
+        hours, remainder = divmod(user_input, 3600)
+        minutes, seconds = divmod(remainder, 60)
+
+        # Display the countdown
+        time_str = f"{hours:02}:{minutes:02}:{seconds:02}"
+        root.title(f"Countdown: {time_str}")
+        root.update()  # Update the window
+        time.sleep(1)  # Wait for 1 second
+        user_input -= 1
+
+    # Show "Time Over" message when countdown completes
+    messagebox.showinfo("", "Time Over")
+
+# Create a button to start the countdown
+start_button = Button(root, text="Start Countdown", command=countdowntimer)
+start_button.place(x=150, y=200)
+
+# Start the main event loop
+root.mainloop()
+
+# ->The goal of our Countdown Timer project is to create a simple graphical application that allows users to set a countdown duration (in hours, minutes, and seconds) and then displays a live countdown until the time is up.
+
+#->We use the tkinter library to create the graphical user interface (GUI).
+#->The main window (root) displays input fields for hours, minutes, and seconds.
+#->When we clicks the “Start Countdown” button, the countdowntimer function calculates the total time in seconds and initiates the countdown loop.
+#->The countdown updates the window title and waits for 1 second between each decrement.
+#->When the countdown reaches zero, a message box displays “Time Over.”
